@@ -233,7 +233,6 @@ namespace Microsoft.AspNet.Mvc.ModelBinding
                 var modelValidationContext =
                         new ModelValidationContext(validationContext.ModelValidationContext, modelExplorer);
                 var modelState = validationContext.ModelValidationContext.ModelState;
-
                 var modelValidationState = modelState.GetValidationState(modelKey);
                 var fieldValidationState = modelState.GetFieldValidationState(modelKey);
 
