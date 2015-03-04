@@ -36,7 +36,7 @@ namespace Microsoft.AspNet.Mvc.Core
 
         public Task<ActionDescriptor> SelectAsync([NotNull] RouteContext context)
         {
-            using (_logger.BeginScope("DefaultActionSelector.SelectAsync"))
+            using (_logger.BeginScope(new ScopeValues(scopeName: "DefaultActionSelector.SelectAsync")))
             {
                 var tree = _decisionTreeProvider.DecisionTree;
                 var matchingRouteConstraints = tree.Select(context.RouteData.Values);
