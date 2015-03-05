@@ -51,7 +51,6 @@ namespace Microsoft.AspNet.Mvc
         /// <param name="viewContext">The <see cref="ViewContext"/> to copy values from.</param>
         /// <param name="view">The <see cref="IView"/> being rendered.</param>
         /// <param name="viewData">The <see cref="ViewDataDictionary"/>.</param>
-        /// <param name="tempData">The <see cref="ITempDataDictionary"/>.</param>
         /// <param name="writer">The <see cref="TextWriter"/> to render output to.</param>
         public ViewContext(
             [NotNull] ViewContext viewContext,

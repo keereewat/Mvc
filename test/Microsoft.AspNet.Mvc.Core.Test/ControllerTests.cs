@@ -5,16 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
+using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Http.Core;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Routing;
 using Microsoft.AspNet.Testing;
 using Microsoft.AspNet.WebUtilities;
-using Microsoft.AspNet.Http.Core;
-using Microsoft.AspNet.Hosting;
 #if ASPNET50
 using Moq;
 #endif
@@ -1460,6 +1460,21 @@ namespace Microsoft.AspNet.Mvc.Test
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => controller.TryValidateModel(model));
             Assert.Equal("The 'BindingContext' property of 'Microsoft.AspNet.Mvc.Controller' must not be null.", exception.Message);
+        }
+
+        [Fact]
+        public void TempData_CanSetAndGetValues()
+        {
+            // Arrange
+            var controller = GetController(null, null);
+            var input = "Foo";
+
+            // Act
+            controller.TempData["key"] = input;
+            var result = controller.TempData["key"];
+
+            // Assert
+            Assert.Equal(input, result);
         }
 
         private static Controller GetController(IModelBinder binder, IValueProvider provider)

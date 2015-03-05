@@ -83,12 +83,13 @@ namespace MvcSample.Web
             {
                 app.UseServices(services =>
                 {
+                    services.AddCachingServices();
+                    services.AddSessionServices();
+
                     services.AddMvc();
                     services.AddSingleton<PassThroughAttribute>();
                     services.AddSingleton<UserNameService>();
                     services.AddTransient<ITestService, TestService>();
-                    services.AddCachingServices();
-                    services.AddSessionServices();
                     
                     // Setup services with a test AssemblyProvider so that only the
                     // sample's assemblies are loaded. This prevents loading controllers from other assemblies

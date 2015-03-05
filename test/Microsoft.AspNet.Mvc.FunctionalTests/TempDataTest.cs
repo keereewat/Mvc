@@ -15,7 +15,7 @@ namespace Microsoft.AspNet.Mvc.FunctionalTests
     public class TempDataTest
     {
         private readonly IServiceProvider _services = TestHelper.CreateServices("TempDataWebSite");
-        private readonly Action<IApplicationBuilder> _app = new RoutingWebSite.Startup().Configure;
+        private readonly Action<IApplicationBuilder> _app = new TempDataWebSite.Startup().Configure;
 
         [Fact]
         public async Task ViewRendersTempData()

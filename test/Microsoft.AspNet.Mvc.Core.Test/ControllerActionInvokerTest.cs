@@ -55,13 +55,10 @@ namespace Microsoft.AspNet.Mvc
         public async Task InvokeAction_SavesTempData_WhenActionDoesNotThrow()
         {
             // Arrange
-            var filter = new Mock<IExceptionFilter>(MockBehavior.Strict);
-            filter
-                .Setup(f => f.OnException(It.IsAny<ExceptionContext>()));
             var tempData = new Mock<ITempDataDictionary>();
             tempData.Setup(t => t.Save()).Verifiable();
 
-            var invoker = CreateInvoker(filter.Object, actionThrows: false, tempData: tempData.Object);
+            var invoker = CreateInvoker(Mock.Of<IFilter>(), actionThrows: false, tempData: tempData.Object);
 
             // Act
             await invoker.InvokeAsync();
@@ -74,23 +71,13 @@ namespace Microsoft.AspNet.Mvc
         public async Task InvokeAction_SavesTempData_WhenActionThrows()
         {
             // Arrange
-            var filter = new Mock<IExceptionFilter>(MockBehavior.Strict);
-            filter
-                .Setup(f => f.OnException(It.IsAny<ExceptionContext>()))
-                .Callback<ExceptionContext>(context =>
-                {
-                    // Handle the exception
-                    context.Result = new EmptyResult();
-                });
             var tempData = new Mock<ITempDataDictionary>();
             tempData.Setup(t => t.Save()).Verifiable();
 
-            var invoker = CreateInvoker(filter.Object, actionThrows: true, tempData: tempData.Object);
+            var invoker = CreateInvoker(Mock.Of<IFilter>(), actionThrows: true, tempData: tempData.Object);
 
-            // Act
-            await invoker.InvokeAsync();
-
-            // Assert
+            // Act & Assert
+            await Assert.ThrowsAsync(_actionException.GetType(), async () => await invoker.InvokeAsync());
             tempData.Verify(t => t.Save(), Times.Once());
         }
 
@@ -1983,7 +1970,7 @@ namespace Microsoft.AspNet.Mvc
         private TestControllerActionInvoker CreateInvoker(
             IFilter[] filters,
             bool actionThrows = false,
-            ITempDataDictionary tempData=null)
+            ITempDataDictionary tempData = null)
         {
             var actionDescriptor = new ControllerActionDescriptor()
             {

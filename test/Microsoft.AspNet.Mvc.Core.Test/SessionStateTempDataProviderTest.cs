@@ -8,7 +8,7 @@ using Microsoft.AspNet.Http.Interfaces;
 using Moq;
 using Xunit;
 
-namespace Microsoft.AspNet.Mvc.Core
+namespace Microsoft.AspNet.Mvc
 {
     public class SessionStateTempDataProviderTest
     {
@@ -68,14 +68,13 @@ namespace Microsoft.AspNet.Mvc.Core
             var testProvider = new SessionStateTempDataProvider();
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(
-                delegate {
-                    testProvider.SaveTempData(
-                        GetHttpContext(session: null, sessionEnabled: false),
-                        new Dictionary<string, object> { { "foo", "bar" } }
-                    );
-                }
-            );
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                testProvider.SaveTempData(
+                    GetHttpContext(session: null, sessionEnabled: false),
+                    new Dictionary<string, object> { { "foo", "bar" } }
+                );
+            });
         }
 
         private HttpContext GetHttpContext(ISessionCollection session, bool sessionEnabled=true)

@@ -74,12 +74,14 @@ namespace Microsoft.AspNet.Mvc.Core.Test.ActionResults
             // Arrange
             var tempData = new Mock<ITempDataDictionary>();
             tempData.Setup(t => t.Keep()).Verifiable();
+
             var httpContext = new Mock<HttpContext>();
             httpContext.Setup(o => o.Response).Returns(new Mock<HttpResponse>().Object);
             httpContext.Setup(o => o.RequestServices.GetService(typeof(ITempDataDictionary))).Returns(tempData.Object);
             var actionContext = new ActionContext(httpContext.Object,
                                                   new RouteData(),
                                                   new ActionDescriptor());
+
             var result = new RedirectToActionResult("SampleAction", null, null)
             {
                 UrlHelper = GetMockUrlHelper("SampleAction")

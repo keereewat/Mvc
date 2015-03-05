@@ -97,10 +97,12 @@ namespace Microsoft.AspNet.Mvc.Core.Test
             // Arrange
             var tempData = new Mock<ITempDataDictionary>();
             tempData.Setup(t => t.Keep()).Verifiable();
+
             var httpContext = new Mock<HttpContext>();
             httpContext.Setup(o => o.Response).Returns(new Mock<HttpResponse>().Object);
             httpContext.Setup(o => o.RequestServices.GetService(typeof(ITempDataDictionary))).Returns(tempData.Object);
             var actionContext = GetActionContext(httpContext.Object);
+
             var result = new RedirectResult("url")
             {
                 UrlHelper = Mock.Of<IUrlHelper>()
