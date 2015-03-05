@@ -39,7 +39,7 @@ namespace Microsoft.AspNet.Mvc
         }
 
         /// <inheritdoc />
-        public object CreateController([NotNull] ActionContext actionContext)
+        public virtual object CreateController([NotNull] ActionContext actionContext)
         {
             var actionDescriptor = actionContext.ActionDescriptor as ControllerActionDescriptor;
             if (actionDescriptor == null)
@@ -58,7 +58,7 @@ namespace Microsoft.AspNet.Mvc
         }
 
         /// <inheritdoc />
-        public void ReleaseController(object controller)
+        public virtual void ReleaseController(object controller)
         {
             var disposableController = controller as IDisposable;
 
